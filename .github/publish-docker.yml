@@ -1,0 +1,35 @@
+name: Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and push image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v2
+
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push image
+        uses: docker/build-push-action@v3
+        id: docker_build
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:latest
+
+      - name: Image digest
+        run: |
+          echo "🎉 You can now pull this image using the below commands:"
+          echo "docker pull ghcr.io/${{ github.repository }}@${{ steps.docker_build.outputs.digest }}"
+          echo "docker pull ghcr.io/${{ github.repository }}:latest"
