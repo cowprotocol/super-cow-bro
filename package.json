@@ -1,5 +1,5 @@
 {
-  "name": "super-cow-bro",
+  "name": "@cowprotocol/super-cow-bro",
   "version": "0.1.0",
   "description": "",
   "main": "server/index.js",
