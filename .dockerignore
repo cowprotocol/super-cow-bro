@@ -1,0 +1,6 @@
+**/.vs
+**/.vscode
+**/Dockerfile*
+README.md
+node_modules
+public
