@@ -6,16 +6,24 @@ const { Server } = require('ws');
 var ws = require("nodejs-websocket");
 var Room = require("./Room.js");
 var Player = require("./Player.js");
+var metrics = require("./metrics.js");
+
+
+
 
 /**
  * Сервер-приложение
  * @param server
  * */
-var App = function (server) {
+var App = function (server) {   
     //комнаты
     this.rooms = {};
     //ws сервер
     this.server = null;
+
+    // Init Metrics
+    metrics.roomsTotal.set(0)
+    metrics.usersTotal.set(0)
 
     /**
      * Создание ws сервера
@@ -25,17 +33,23 @@ var App = function (server) {
         const wss = new Server({ server });
 
         wss.on('connection', (ws) => {
+          metrics.usersTotal.inc()
+
             ws.on('close', () => {
+                metrics.usersTotal.dec()
                 var room = ws.player.room;
                 var player = ws.player;
+
                 if (room) {
                     console.log('Player `' + player.name + '` is disconnected from the room `' + room.name + '`');
                     room.removePlayer(player);
                     //Если игрок был овнером комнаты, то и комнату удаляем
                     if (room.owner.id === player.id) {
+                        metrics.roomsTotal.dec()
                         console.log('Room `' + room.name + '` destroyed!');
-                        room.destroy();
+                        room.destroy();                        
                         delete th.rooms[room.name];
+                        metrics.de
                     }
                 }
             });
@@ -71,6 +85,7 @@ var App = function (server) {
             var new_player = new Player(params.data.name, socket);
 
             if (!room) {
+                metrics.roomsTotal.inc()
                 this.rooms[params.room] = new Room(params.room, new_player, params.data.level, ['level1', 'level2', 'level3', 'level4', 'level5']);
                 console.log('Room `' + params.room + '` created! Owner - ' + new_player.name + '.');
             }
