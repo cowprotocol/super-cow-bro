@@ -32,7 +32,10 @@ PORT=9090 yarn start
 ## Build with Docker
 
 ```
+# Build
 docker build . -t super-cow-bro
+
+# Run
 docker run -d super-cow-bro
 ```
 
