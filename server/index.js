@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = process.env.PORT || 80
+const port = process.env.PORT || 8080
 
 app.use(express.static('./public'));
 
@@ -16,4 +16,4 @@ var App = require('./App.js');
 var gameApp = new App(server);
 gameApp.createServer();
 
-console.log('Server started! Port: ', port);
+console.log('Server started at http://localhost' + ( port!=80 ? ':' + port : ''));
