@@ -1,6 +1,6 @@
 {
-  "name": "anonce",
-  "version": "1.0.0",
+  "name": "@cowprotocol/super-cow-bro",
+  "version": "0.1.0",
   "description": "",
   "main": "server/index.js",
   "directories": {
