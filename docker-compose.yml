@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  services:
+    container_name: supercow-services
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    command: yarn start
+
+  # For now, we don't serve the website from another container. For simplicity, we will serve it from ther services
+  # web:
+  #   image: nginx:latest
+  #   container_name: supercow-web
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8081:80
+  #   volumes:
+  #     - ./public:/usr/share/nginx/html

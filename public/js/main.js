@@ -1,6 +1,6 @@
 window.addEventListener('load', function () {
-    var protocol = location.host === 'localhost' ? 'ws' : 'wss'
-    var serverUrl = protocol + '://' + location.host;
+    var protocol = location.hostname === 'localhost' ? 'ws' : 'wss'
+    var serverUrl = protocol + '://' + location.hostname + ':8080';
 
     // TODO: change roomId when too many players are connected
     var roomId = (new URLSearchParams(location.search)).get('room') || 'cowrunner'
