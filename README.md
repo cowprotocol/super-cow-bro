@@ -36,7 +36,7 @@ PORT=9090 yarn start
 docker build . -t super-cow-bro
 
 # Run
-docker run -d super-cow-bro
+docker run -p 8080:8080 super-cow-bro
 ```
 
 ## Run with docker-compose
