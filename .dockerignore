@@ -1,0 +1,7 @@
+**/.vs
+**/.vscode
+**/Dockerfile*
+.idea
+.git
+README.md
+node_modules

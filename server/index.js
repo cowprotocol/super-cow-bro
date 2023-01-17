@@ -16,4 +16,4 @@ var App = require('./App.js');
 var gameApp = new App(server);
 gameApp.createServer();
 
-console.log('Server started!');
+console.log('Server started! Port: ', port);
