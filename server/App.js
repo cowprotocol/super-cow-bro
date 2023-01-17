@@ -21,10 +21,6 @@ var App = function (server) {
     //ws сервер
     this.server = null;
 
-    // Init Metrics
-    metrics.roomsTotal.set(0)
-    metrics.usersTotal.set(0)
-
     /**
      * Создание ws сервера
      * */
@@ -34,9 +30,10 @@ var App = function (server) {
 
         wss.on('connection', (ws) => {
           metrics.usersTotal.inc()
+          metrics.activeUsers.inc()
 
             ws.on('close', () => {
-                metrics.usersTotal.dec()
+                metrics.activeUsers.dec()
                 var room = ws.player.room;
                 var player = ws.player;
 
@@ -45,7 +42,7 @@ var App = function (server) {
                     room.removePlayer(player);
                     //Если игрок был овнером комнаты, то и комнату удаляем
                     if (room.owner.id === player.id) {
-                        metrics.roomsTotal.dec()
+                        metrics.activeRooms.dec()
                         console.log('Room `' + room.name + '` destroyed!');
                         room.destroy();                        
                         delete th.rooms[room.name];
@@ -85,7 +82,7 @@ var App = function (server) {
             var new_player = new Player(params.data.name, socket);
 
             if (!room) {
-                metrics.roomsTotal.inc()
+                metrics.activeRooms.inc()
                 this.rooms[params.room] = new Room(params.room, new_player, params.data.level, ['level1', 'level2', 'level3', 'level4', 'level5']);
                 console.log('Room `' + params.room + '` created! Owner - ' + new_player.name + '.');
             }
