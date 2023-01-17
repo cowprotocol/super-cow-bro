@@ -14,11 +14,8 @@ Rules are simple!
 # Install dependencies
 yarn
 
-# Run the Backend
+# Run the Frontend and Backend
 yarn start
-
-# (...in a different tab) Run the front-end
-yarn start:static
 ```
 
 ## Build with Docker

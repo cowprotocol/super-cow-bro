@@ -2,11 +2,11 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
 COPY yarn.lock ./
-
 RUN yarn
 
-COPY . /app
+COPY . .
 
+EXPOSE 80
 CMD [ "yarn", "start" ]
